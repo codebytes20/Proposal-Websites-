@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forever Us</title>
+    <meta
+      name="description"
+      content="A romantic proposal page celebrating our love story and inviting the sweetest yes."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              blush: '#fdf2f8',
+              rose: '#f43f5e',
+              rosewood: '#7f1d1d',
+              blushdeep: '#f9a8d4',
+              cream: '#fffaf5',
+              champagne: '#f7e8d8'
+            },
+            boxShadow: {
+              soft: '0 20px 50px rgba(190, 24, 93, 0.18)'
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose-100: #ffe4e6;
+        --rose-200: #fecdd3;
+        --rose-300: #fda4af;
+        --rose-500: #f43f5e;
+        --rose-700: #be123c;
+        --dusty-rose: #f9d7e5;
+        --cream: #fffaf5;
+        --deep-red: #5c1a1a;
+        --pink-soft: #fff2f7;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(180deg, #fffaf9 0%, #fff1f6 100%);
+        color: #2d1b1b;
+      }
+
+      .font-script {
+        font-family: 'Cormorant Garamond', serif;
+      }
+
+      .hero-bg {
+        background-image: linear-gradient(135deg, rgba(108, 18, 38, 0.58), rgba(255, 160, 180, 0.26)),
+          url('https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1600&q=80');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .fade-in {
+        animation: fadeUp 1.2s ease-out both;
+      }
+
+      .fade-delay {
+        animation: fadeUp 1.5s ease-out 0.25s both;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .timeline {
+        position: relative;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(244, 63, 94, 0.12), rgba(244, 63, 94, 0.78), rgba(244, 63, 94, 0.12));
+        transform: translateX(-50%);
+      }
+
+      @media (max-width: 767px) {
+        .timeline::before {
+          left: 22px;
+        }
+      }
+
+      .story-card {
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .story-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 35px rgba(190, 24, 93, 0.12);
+      }
+
+      .story-card::before {
+        content: '';
+        position: absolute;
+        top: 1.5rem;
+        width: 16px;
+        height: 16px;
+        border-radius: 9999px;
+        background: #f43f5e;
+        box-shadow: 0 0 0 6px rgba(244, 63, 94, 0.12);
+      }
+
+      .story-card.left::before {
+        right: -40px;
+      }
+
+      .story-card.right::before {
+        left: -40px;
+      }
+
+      @media (max-width: 767px) {
+        .story-card::before {
+          left: 10px !important;
+          right: auto !important;
+        }
+      }
+
+      .gallery-item {
+        overflow: hidden;
+        border-radius: 1.5rem;
+      }
+
+      .gallery-item img {
+        transition: transform 0.7s ease, filter 0.5s ease;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.08);
+        filter: saturate(1.08);
+      }
+
+      .decision-box {
+        position: relative;
+        min-height: 260px;
+      }
+
+      .no-button {
+        position: absolute;
+        left: 50%;
+        top: 62%;
+        transform: translate(-50%, -50%);
+        transition: left 0.3s ease, top 0.3s ease, transform 0.3s ease;
+      }
+
+      .no-button:hover {
+        transform: translate(-50%, -50%) scale(1.04);
+      }
+
+      .confetti-piece {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        opacity: 0.9;
+        background: transparent;
+        font-size: 40px;
+        line-height: 40px;
+        pointer-events: none;
+        z-index: 60;
+        animation: confettiDrop 2.6s ease-in forwards;
+      }
+
+      @keyframes confettiDrop {
+        0% {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate3d(var(--x), var(--y), 0) rotate(var(--r)) scale(0.8);
+        }
+      }
+
+      .love-letter {
+        opacity: 0;
+        transform: translateY(25px);
+        pointer-events: none;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .love-letter.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .audio-pulse {
+        animation: pulse 1.8s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.18);
+        }
+        50% {
+          transform: scale(1.04);
+          box-shadow: 0 0 0 12px rgba(244, 63, 94, 0);
+        }
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden text-stone-800">
+    <header class="hero-bg relative min-h-screen flex items-center justify-center px-6 py-12 text-white">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#2a0d16]/50 via-[#3d1420]/25 to-[#1f0d13]/70"></div>
+      <div class="relative z-10 mx-auto max-w-5xl text-center">
+        <p class="fade-in mb-5 text-sm uppercase tracking-[0.4em] text-pink-100/80">Forever begins here</p>
+        <h1 class="fade-delay font-script text-5xl sm:text-6xl md:text-8xl font-semibold leading-none text-white drop-shadow-lg">
+          My Whole World In One Place
+        </h1>
+        <p class="fade-delay mx-auto mt-6 max-w-2xl text-base sm:text-lg text-pink-50/90">
+          With you, every ordinary moment turns into a memory worth keeping forever.
+        </p>
+        <div class="fade-delay mt-10 flex justify-center">
+          <a
+            href="#story"
+            class="group inline-flex items-center gap-3 rounded-full border border-white/40 bg-white/10 px-7 py-3 font-medium text-white backdrop-blur-md transition duration-300 hover:bg-white/20 hover:shadow-soft"
+          >
+            <span>Scroll to our story</span>
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-lg transition group-hover:translate-y-1">↓</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="story" class="relative px-4 py-20 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-5xl">
+          <div class="mb-14 text-center">
+            <p class="text-sm uppercase tracking-[0.35em] text-rose-500">Our Story</p>
+            <h2 class="font-script mt-4 text-5xl text-rosewood sm:text-6xl">The moments that made us</h2>
+          </div>
+
+          <div class="timeline space-y-8 md:space-y-12">
+            <article class="story-card left w-full md:w-[46%] ml-auto rounded-[1.75rem] border border-rose-100 bg-white/80 p-6 shadow-soft backdrop-blur-sm md:mr-8">
+              <div class="mb-4 flex items-center justify-between gap-3">
+                <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700">01</span>
+                <span class="text-sm text-stone-500">The Day We Met</span>
+              </div>
+              <h3 class="font-script text-4xl text-rosewood">A spark I could not ignore</h3>
+              <p class="mt-4 leading-7 text-stone-600">
+                It was one of those unforgettable moments when time seemed to slow down and the whole world narrowed to just us. A single smile, a shared laugh, and suddenly everything felt softer, warmer, and infinitely brighter.
+              </p>
+            </article>
+
+            <article class="story-card right w-full md:w-[46%] rounded-[1.75rem] border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-6 shadow-soft md:ml-8">
+              <div class="mb-4 flex items-center justify-between gap-3">
+                <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700">02</span>
+                <span class="text-sm text-stone-500">Our First Date</span>
+              </div>
+              <h3 class="font-script text-4xl text-rosewood">The beginning of forever</h3>
+              <p class="mt-4 leading-7 text-stone-600">
+                We talked until the hours blurred together, and in that easy conversation, I found a peace I had never known. It felt like the universe had finally set the right two hearts in motion.
+              </p>
+            </article>
+
+            <article class="story-card left w-full md:w-[46%] ml-auto rounded-[1.75rem] border border-rose-100 bg-white/80 p-6 shadow-soft md:mr-8">
+              <div class="mb-4 flex items-center justify-between gap-3">
+                <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700">03</span>
+                <span class="text-sm text-stone-500">The Day I Knew</span>
+              </div>
+              <h3 class="font-script text-4xl text-rosewood">That this was love</h3>
+              <p class="mt-4 leading-7 text-stone-600">
+                It hit me gently, like a sunrise sneaking across the room: this was not just a passing feeling. It was home. It was safety. It was the kind of love that makes you want to stay, to grow, and to choose each other every day.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-4 pb-20 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-6xl">
+          <div class="mb-10 text-center">
+            <p class="text-sm uppercase tracking-[0.35em] text-rose-500">Our Gallery</p>
+            <h2 class="font-script mt-4 text-5xl text-rosewood sm:text-6xl">Little pieces of us</h2>
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="gallery-item shadow-soft"><img src="IMG_20250809_132747130_HDR_AE.jpg" alt="Couple walking together" class="h-80 w-full object-cover" /></div>
+            <div class="gallery-item shadow-soft"><img src="IMG_20250809_134913264_HDR_AE~2.jpg" alt="Couple smiling" class="h-80 w-full object-cover" /></div>
+            <div class="gallery-item shadow-soft"><img src="img1.jpg" alt="Couple embracing" class="h-80 w-full object-cover" /></div>
+            <div class="gallery-item shadow-soft"><img src="IMG_20250808_140133861_HDR_AE.jpg" alt="Couple at sunset" class="h-80 w-full object-cover" /></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-4 pb-20 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-5xl">
+          <div class="rounded-[2rem] border border-rose-100 bg-gradient-to-br from-[#fff4f7] via-white to-[#fff7f3] px-5 py-12 shadow-soft sm:px-8 lg:px-12">
+            <div class="decision-box flex flex-col items-center justify-center text-center">
+              <p class="mb-3 text-sm uppercase tracking-[0.35em] text-rose-500">The question</p>
+              <h2 class="font-script text-5xl text-rosewood sm:text-7xl">Will you marry me?</h2>
+              <p class="mt-4 max-w-xl text-base text-stone-600 sm:text-lg">
+                Every dream I have is a little brighter with you in it. I want to spend forever turning ordinary days into the sweetest memories of all.
+              </p>
+
+              <div class="relative mt-10 w-full max-w-xl">
+                <div id="decisionBox" class="relative mx-auto h-44 w-full max-w-md rounded-[2rem] border border-dashed border-rose-200 bg-white/70">
+                  <button
+                    id="yesButton"
+                    class="audio-pulse absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-red-500 px-8 py-3 text-xl font-bold text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl"
+                    type="button"
+                  >
+                    YES
+                  </button>
+                  <button
+                    id="noButton"
+                    class="no-button rounded-full border-2 border-rose-200 bg-white px-7 py-3 text-xl font-bold text-rose-600 shadow-md transition hover:bg-rose-50"
+                    type="button"
+                  >
+                    NO
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="loveLetter" class="love-letter mt-12 rounded-[2rem] border border-rose-200 bg-gradient-to-br from-[#fffaf9] to-[#fff3f8] p-6 shadow-soft sm:p-8">
+            <div class="mb-6 flex items-center justify-between gap-4">
+              <div>
+                <p class="text-sm uppercase tracking-[0.3em] text-rose-500">A love note</p>
+                <h3 class="font-script mt-2 text-4xl text-rosewood sm:text-5xl">To the love of my life</h3>
+              </div>
+              <button id="musicToggle" type="button" class="rounded-full border border-rose-200 bg-white px-4 py-2 text-sm font-medium text-rose-600 shadow-sm transition hover:border-rose-300 hover:bg-rose-50">
+                Music on
+              </button>
+            </div>
+
+            <div class="prose prose-pink max-w-none text-stone-700">
+              <p class="leading-8 text-lg">
+                My darling, from the first moment our stories began to intertwine, I knew my life was becoming something beautiful. You are my laughter, my comfort, my calm, and my favorite dream. With you, even the smallest days feel rich and full of wonder.
+              </p>
+              <p class="mt-4 leading-8 text-lg">
+                I want to hold your hand through every season of life, every sunrise and every storm, every ordinary morning and every grand adventure. I want to keep choosing you, loving you, building with you, and being grateful for the gift that is us.
+              </p>
+              <p class="mt-4 leading-8 text-lg">
+                So here I am, with my whole heart in my hands, asking for forever. Will you be my forever person? I love you more than words can say.
+              </p>
+            </div>
+
+            <audio id="bgMusic" class="mt-6 w-full" controls loop preload="auto">
+              <source src="leberch-romantic-584478.mp3" type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const yesButton = document.getElementById('yesButton');
+      const noButton = document.getElementById('noButton');
+      const decisionBox = document.getElementById('decisionBox');
+      const loveLetter = document.getElementById('loveLetter');
+      const musicToggle = document.getElementById('musicToggle');
+      const bgMusic = document.getElementById('bgMusic');
+
+      function moveNoButton() {
+        const maxX = decisionBox.clientWidth - noButton.offsetWidth;
+        const maxY = decisionBox.clientHeight - noButton.offsetHeight;
+        const boxRect = decisionBox.getBoundingClientRect();
+        const yesRect = yesButton.getBoundingClientRect();
+        const yesLeft = yesRect.left - boxRect.left;
+        const yesTop = yesRect.top - boxRect.top;
+        let x = 0;
+        let y = 0;
+
+        for (let attempt = 0; attempt < 30; attempt += 1) {
+          const candidateX = Math.random() * Math.max(0, maxX);
+          const candidateY = Math.random() * Math.max(0, maxY);
+          const overlapsYes = candidateX < yesLeft + yesRect.width &&
+            candidateX + noButton.offsetWidth > yesLeft &&
+            candidateY < yesTop + yesRect.height &&
+            candidateY + noButton.offsetHeight > yesTop;
+
+          if (!overlapsYes) {
+            x = candidateX;
+            y = candidateY;
+            break;
+          }
+        }
+
+        noButton.style.left = `${x}px`;
+        noButton.style.top = `${y}px`;
+        noButton.style.transform = 'translate(0, 0)';
+      }
+
+      function createConfettiBurst() {
+        const colors = ['#dc2626'];
+
+        for (let i = 0; i < 150; i += 1) {
+          const piece = document.createElement('span');
+          piece.className = 'confetti-piece';
+          piece.textContent = '\u2665';
+          piece.style.left = `${window.innerWidth / 2}px`;
+          piece.style.top = `${window.innerHeight / 2}px`;
+          piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+          piece.setAttribute('aria-hidden', 'true');
+          piece.style.setProperty('--x', `${(Math.random() - 0.5) * 900}px`);
+          piece.style.setProperty('--y', `${(Math.random() - 0.5) * 700}px`);
+          piece.style.setProperty('--r', `${(Math.random() - 0.5) * 720}deg`);
+          document.body.appendChild(piece);
+
+          setTimeout(() => piece.remove(), 2600);
+        }
+      }
+
+      noButton.addEventListener('mouseenter', moveNoButton);
+      noButton.addEventListener('focus', moveNoButton);
+      noButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        moveNoButton();
+      });
+
+      yesButton.addEventListener('click', () => {
+        createConfettiBurst();
+        loveLetter.classList.add('visible');
+        loveLetter.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        bgMusic.play().catch(() => {
+          // autoplay may be blocked by browser until user interaction; the audio remains available for manual play.
+        });
+      });
+
+      musicToggle.addEventListener('click', () => {
+        if (bgMusic.paused) {
+          bgMusic.play().catch(() => {});
+          musicToggle.textContent = 'Music off';
+        } else {
+          bgMusic.pause();
+          musicToggle.textContent = 'Music on';
+        }
+      });
+
+      window.addEventListener('load', () => {
+        moveNoButton();
+      });
+    </script>
+  </body>
+</html>
